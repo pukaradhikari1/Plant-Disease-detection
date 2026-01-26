@@ -1,7 +1,7 @@
 import tensorflow as tf
 
-MODEL_PATH = r"C:\Users\Hp Victus\Desktop\project 4\Backend\saved_model\plant_disease_resnet"
-DATASET_PATH = r"C:\Users\Hp Victus\Desktop\project 4\Backend\Data\PlantVillage"
+MODEL_PATH = r"C:\Users\Sakar\Documents\GitHub\Plant-Disease-detection\Backend\models\standard.keras"
+DATASET_PATH = r"C:\Users\Sakar\Documents\GitHub\Plant-Disease-detection\Backend\Data\PlantVillage"
 
 IMAGE_SIZE = (224, 224)
 BATCH_SIZE = 32
