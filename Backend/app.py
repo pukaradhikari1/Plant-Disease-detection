@@ -8,9 +8,8 @@ import tensorflow as tf
 from dotenv import load_dotenv
 from supabase import create_client
 
-# =======================
 # LOAD ENV VARIABLES
-# =======================
+
 load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -21,18 +20,15 @@ if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
 
 supabase = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
 
-# =======================
 # FLASK APP
-# =======================
+
 app = Flask(__name__)
 CORS(app)
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# =======================
 # LOAD MODEL
-# =======================
 MODEL_PATH = r"C:\Users\Hp Victus\Desktop\project 4\Backend\saved_model\plant_disease_resnet.keras"
 
 CLASS_NAMES = [
@@ -57,37 +53,33 @@ CLASS_NAMES = [
 model = tf.keras.models.load_model(MODEL_PATH)
 print("✅ Model loaded successfully")
 
-# =======================
 # ROUTES
-# =======================
 @app.route("/predict", methods=["POST"])
 def predict():
     try:
-        # -----------------------
         # VALIDATE INPUT
-        # -----------------------
         if "image" not in request.files:
             return jsonify({"error": "No image uploaded"}), 400
 
         file = request.files["image"]
 
-        # -----------------------
+        
         # SAVE LOCALLY
-        # -----------------------
+        
         filename = f"{uuid.uuid4()}.jpg"
         local_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(local_path)
 
-        # -----------------------
+       
         # PREPROCESS IMAGE
-        # -----------------------
+       
         img = Image.open(local_path).convert("RGB")
         img = img.resize((224, 224))
         img_array = np.expand_dims(np.array(img), axis=0) / 255.0
 
-        # -----------------------
+     
         # MODEL PREDICTION
-        # -----------------------
+        
         predictions = model.predict(img_array)[0]
         top_indices = np.argsort(predictions)[-3:][::-1]
 
@@ -101,9 +93,9 @@ def predict():
 
         best_prediction = top_predictions[0]
 
-        # -----------------------
+        
         # UPLOAD TO SUPABASE STORAGE
-        # -----------------------
+       
         storage_path = f"public/{filename}"
 
         with open(local_path, "rb") as f:
@@ -118,23 +110,23 @@ def predict():
             f"leaf-images/public/{filename}"
         )
 
-        # -----------------------
+
         # STORE LOG IN DATABASE
-        # -----------------------
+      
         supabase.table("plant_disease_logs").insert({
             "image_url": image_url,
             "disease_name": best_prediction["disease"],
             "confidence": best_prediction["confidence"]
         }).execute()
 
-        # -----------------------
+      
         # CLEANUP
-        # -----------------------
+       
         os.remove(local_path)
 
-        # -----------------------
+        
         # RESPONSE
-        # -----------------------
+ 
         return jsonify({
             "best_prediction": best_prediction,
             "top_predictions": top_predictions,
@@ -148,8 +140,9 @@ def predict():
         }), 500
 
 
-# =======================
+
 # RUN SERVER
-# =======================
+
 if __name__ == "__main__":
     app.run(debug=True)
+
