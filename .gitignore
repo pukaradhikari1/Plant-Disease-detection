@@ -1,7 +1,7 @@
 # Python virtual environment
 venv/
 Backend/venv/
-
+*.env
 # Trained ML models
 *.keras
 *.h5
