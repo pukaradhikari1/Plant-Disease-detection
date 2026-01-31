@@ -1,13 +1,136 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="dark">
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>plant-diagnosis</title>
-  </head>
-  <body>
+    <title>Plant Disease Detection</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0df259",
+              "primary-hover": "#0bc94a",
+              "primary-dim": "rgba(13, 242, 89, 0.1)",
+              "background-light": "#f5f8f6",
+              "background-dark": "#0a0a0a",
+              "background-card": "#18181b",
+              "surface-dark": "#1a2e22",
+              "surface-border": "rgba(13, 242, 89, 0.2)",
+              "caution": "#f2c94c",
+              "danger": "#ef4444",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "body": ["Space Grotesk", "sans-serif"],
+            },
+            backgroundImage: {
+              'hero-glow': 'radial-gradient(circle at 50% 50%, rgba(13, 242, 89, 0.15) 0%, rgba(10, 10, 10, 0) 50%)',
+              'glass': 'linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%)',
+              'grid-pattern': 'linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a0a; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333; 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #0df259; 
+      }
+
+      /* Utilities */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      
+      .glass-nav {
+        background: rgba(10, 10, 10, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .text-glow {
+        text-shadow: 0 0 20px rgba(13, 242, 89, 0.3);
+      }
+      
+      .icon-glow {
+        filter: drop-shadow(0 0 8px rgba(13, 242, 89, 0.4));
+      }
+
+      .neon-text-glow {
+        text-shadow: 0 0 10px rgba(13, 242, 89, 0.5);
+      }
+
+      /* Animations */
+      @keyframes scan {
+        0% { top: 0%; opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { top: 100%; opacity: 0; }
+      }
+      
+      @keyframes shimmer {
+        100% { transform: translateX(100%); }
+      }
+
+      @keyframes progress {
+        0% { stroke-dasharray: 0 100; }
+      }
+
+      .circular-chart {
+        display: block;
+        margin: 0 auto;
+        max-width: 80%;
+        max-height: 250px;
+      }
+      .circle-bg {
+        fill: none;
+        stroke: #1a2e22;
+        stroke-width: 2.5;
+      }
+      .circle {
+        fill: none;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        animation: progress 1s ease-out forwards;
+      }
+      .percentage {
+        fill: #fff;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: bold;
+        font-size: 0.5em;
+        text-anchor: middle;
+      }
+    </style>
+  
+</head>
+  <body class="bg-background-dark text-white font-display antialiased overflow-x-hidden selection:bg-primary selection:text-black">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <!-- Point to your entry file here. If your file is named main.tsx, change src below to "/src/main.tsx" -->
+    <script type="module" src="/src/index.tsx"></script>
   </body>
 </html>
