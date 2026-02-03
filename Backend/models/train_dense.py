@@ -103,4 +103,4 @@ history_fine = model.fit(
 os.makedirs("../models", exist_ok=True)
 model.save("../models/densenet121_plant_disease.h5")
 
-print("✅ Training complete. Model saved.")
+print(" Training complete. Model saved.")

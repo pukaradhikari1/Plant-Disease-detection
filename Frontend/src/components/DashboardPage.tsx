@@ -1,191 +1,11 @@
 import React, { useState, useRef } from 'react';
 import type { ViewState, DiseaseResult } from '../App';
+import { analyzeLeaf } from "../api";
 
 interface Props {
   onNavigate: (view: ViewState) => void;
   onAnalysisComplete: (result: DiseaseResult) => void;
 }
-
-// Database of Diseases requested
-const DISEASE_DB: DiseaseResult[] = [
-  // --- CAULIFLOWER ---
-  {
-    name: "Cauliflower Bacterial Spot Rot",
-    pathogen: "Pseudomonas fluorescens",
-    severity: "High",
-    confidence: 97.4,
-    description: "A bacterial disease causing dark, water-soaked spots on curds and leaves, leading to soft rot.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Bactericide", steps: ["Apply copper-based bactericides.", "Remove infected curds immediately."] },
-      { type: "Cultural", color: "caution", icon: "eco", title: "Management", steps: ["Avoid overhead irrigation.", "Maintain field hygiene."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Use disease-free seeds.", "Rotate with non-cruciferous crops."] }
-    ]
-  },
-  {
-    name: "Cauliflower Downy Mildew",
-    pathogen: "Hyaloperonospora brassicae",
-    severity: "Medium",
-    confidence: 94.2,
-    description: "Fungal infection appearing as yellow patches on leaf surfaces with white fluffy growth on undersides.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Fungicide", steps: ["Apply Metalaxyl or Mancozeb.", "Spray every 10-14 days."] },
-      { type: "Organic", color: "caution", icon: "eco", title: "Control", steps: ["Neem oil application.", "Remove weed hosts."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Plant resistant varieties.", "Ensure good air circulation."] }
-    ]
-  },
-  {
-    name: "Cauliflower Black Rot",
-    pathogen: "Xanthomonas campestris",
-    severity: "Critical",
-    confidence: 98.1,
-    description: "Systemic bacterial infection causing V-shaped yellow lesions on leaf margins and blackened veins.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Chemical", steps: ["Copper hydroxide sprays.", "No cure for infected plants; remove them."] },
-      { type: "Cultural", color: "caution", icon: "eco", title: "Sanitation", steps: ["Sanitize all tools.", "Deep plow crop debris."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Hot water seed treatment.", "3-year crop rotation."] }
-    ]
-  },
-
-  // --- POTATO ---
-  {
-    name: "Potato Late Blight",
-    pathogen: "Phytophthora infestans",
-    severity: "Critical",
-    confidence: 99.2,
-    description: "Devastating disease causing large, dark brown blotches with green-gray edges on leaves and stems.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Fungicide", steps: ["Apply Chlorothalonil or Mancozeb.", "Spray immediately upon detection."] },
-      { type: "Cultural", color: "caution", icon: "eco", title: "Management", steps: ["Destroy cull piles.", "Kill vines 2 weeks before harvest."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Plant resistant varieties.", "Use certified seed potatoes."] }
-    ]
-  },
-
-  // --- TOMATO ---
-  {
-    name: "Tomato Bacterial Spot",
-    pathogen: "Xanthomonas spp.",
-    severity: "High",
-    confidence: 95.5,
-    description: "Small, dark, water-soaked spots on leaves and fruit. Leaves may turn yellow and drop.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Treatment", steps: ["Copper + Mancozeb mix.", "Apply at first sign of spotting."] },
-      { type: "Cultural", color: "caution", icon: "eco", title: "Care", steps: ["Avoid working when wet.", "Stake plants to improve airflow."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Seed treatment with bleach.", "Rotate crops annually."] }
-    ]
-  },
-  {
-    name: "Tomato Early Blight",
-    pathogen: "Alternaria solani",
-    severity: "Medium",
-    confidence: 96.8,
-    description: "Concentric ring patterns (bullseye) in brown spots on lower leaves, causing yellowing.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Fungicide", steps: ["Apply Azoxystrobin or Copper.", "Focus on lower leaves."] },
-      { type: "Cultural", color: "caution", icon: "eco", title: "Pruning", steps: ["Remove lower branches.", "Mulch to prevent soil splash."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Drip irrigation.", "Provide ample nitrogen."] }
-    ]
-  },
-  {
-    name: "Tomato Mosaic Virus",
-    pathogen: "Tobamovirus",
-    severity: "High",
-    confidence: 98.5,
-    description: "Mottled light and dark green pattern on leaves. Leaves may be stunted or fern-like.",
-    treatments: [
-      { type: "Action", color: "danger", icon: "science", title: "Removal", steps: ["No chemical cure.", "Remove and burn infected plants."] },
-      { type: "Hygiene", color: "caution", icon: "eco", title: "Sanitation", steps: ["Wash hands with milk/soap.", "Sterilize tools."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Resistant varieties.", "Control aphids (vectors)."] }
-    ]
-  },
-  {
-    name: "Tomato Septoria Leaf Spot",
-    pathogen: "Septoria lycopersici",
-    severity: "Medium",
-    confidence: 93.9,
-    description: "Circular spots with dark margins and gray centers appearing on lower leaves first.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Fungicide", steps: ["Chlorothalonil spray.", "Repeat every 7-10 days."] },
-      { type: "Cultural", color: "caution", icon: "eco", title: "Clean up", steps: ["Remove fallen leaves.", "Water at base only."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["2-year rotation.", "Remove crop debris in winter."] }
-    ]
-  },
-  {
-    name: "Tomato Spider Mites",
-    pathogen: "Tetranychus urticae",
-    severity: "Low",
-    confidence: 91.2,
-    description: "Tiny pests causing stippling (yellow specks) on leaves. Fine webbing may be visible.",
-    treatments: [
-      { type: "Immediate", color: "danger", icon: "science", title: "Miticide", steps: ["Insecticidal soap.", "Neem oil application."] },
-      { type: "Biological", color: "caution", icon: "eco", title: "Predators", steps: ["Release predatory mites.", "Spray with water jet."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Keep plants watered (mites like dry).", "Weed control."] }
-    ]
-  },
-  {
-    name: "Tomato Yellow Leaf Curl",
-    pathogen: "Begomovirus",
-    severity: "High",
-    confidence: 97.7,
-    description: "Leaves curl upward, turn yellow, and are crinkled. Plants become stunted.",
-    treatments: [
-      { type: "Vector", color: "danger", icon: "science", title: "Whitefly Control", steps: ["Imidacloprid (systemic).", "Reflective mulches."] },
-      { type: "Physical", color: "caution", icon: "eco", title: "Barriers", steps: ["Fine mesh row covers.", "Yellow sticky traps."] },
-      { type: "Prevention", color: "primary", icon: "shield", title: "Future", steps: ["Virus-free transplants.", "Weed management."] }
-    ]
-  }
-];
-
-// --- SEPARATED API CALL PLACEHOLDERS ---
-const apiCalls = {
-  // Model 1: ResNet-50
-  analyzeWithResNet50: async (imageBlob: string): Promise<DiseaseResult> => {
-    console.log("Connecting to ResNet-50 API Node...");
-    // TODO: Replace with actual fetch call
-    // const formData = new FormData();
-    // formData.append('file', imageFile);
-    // const response = await fetch('https://api.yoursite.com/model/resnet', { method: 'POST', body: formData });
-    
-    // Simulating Network Latency (~1.5s)
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(DISEASE_DB[Math.floor(Math.random() * DISEASE_DB.length)]);
-      }, 1500);
-    });
-  },
-
-  // Model 2: EfficientNet-B0
-  analyzeWithEfficientNet: async (imageBlob: string): Promise<DiseaseResult> => {
-    console.log("Connecting to EfficientNet-B0 API Node...");
-    // Simulating Faster Latency (~800ms)
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(DISEASE_DB[Math.floor(Math.random() * DISEASE_DB.length)]);
-      }, 800);
-    });
-  },
-
-  // Model 3: DenseNet-121
-  analyzeWithDenseNet: async (imageBlob: string): Promise<DiseaseResult> => {
-    console.log("Connecting to DenseNet-121 API Node...");
-    // Simulating Slower Latency (~2.2s)
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(DISEASE_DB[Math.floor(Math.random() * DISEASE_DB.length)]);
-      }, 2200);
-    });
-  },
-
-  // Model 4: Basic CNN
-  analyzeWithCNN: async (imageBlob: string): Promise<DiseaseResult> => {
-    console.log("Connecting to Basic CNN API Node...");
-    // Simulating Fastest Latency (~400ms)
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(DISEASE_DB[Math.floor(Math.random() * DISEASE_DB.length)]);
-      }, 400);
-    });
-  }
-};
 
 type ModelType = 'resnet' | 'efficientnet' | 'densenet' | 'cnn';
 
@@ -194,7 +14,8 @@ const DashboardPage: React.FC<Props> = ({ onNavigate, onAnalysisComplete }) => {
   const [fileSelected, setFileSelected] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState<ModelType>('resnet');
-  
+  const [file, setFile] = useState<File | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileClick = () => {
@@ -202,60 +23,41 @@ const DashboardPage: React.FC<Props> = ({ onNavigate, onAnalysisComplete }) => {
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-      setFileSelected(true);
-    }
+    const selected = event.target.files?.[0];
+    if (!selected) return;
+
+    setFile(selected);
+    setPreviewUrl(URL.createObjectURL(selected));
+    setFileSelected(true);
   };
 
   const handleAnalyze = async () => {
-    if (!fileSelected || !previewUrl) return; 
-    setAnalyzing(true);
-    
-    // Start Performance Timer
-    const startTime = performance.now();
-    
-    let result: DiseaseResult;
+    if (!file || analyzing) return;
 
     try {
-        // Route to the specific API based on selection
-        switch (selectedModel) {
-            case 'resnet':
-                result = await apiCalls.analyzeWithResNet50(previewUrl);
-                break;
-            case 'efficientnet':
-                result = await apiCalls.analyzeWithEfficientNet(previewUrl);
-                break;
-            case 'densenet':
-                result = await apiCalls.analyzeWithDenseNet(previewUrl);
-                break;
-            case 'cnn':
-                result = await apiCalls.analyzeWithCNN(previewUrl);
-                break;
-            default:
-                result = await apiCalls.analyzeWithResNet50(previewUrl);
-        }
+      setAnalyzing(true);
+      const startTime = performance.now();
 
-        // End Performance Timer
-        const endTime = performance.now();
-        const durationInSeconds = ((endTime - startTime) / 1000).toFixed(2); // Calculate actual time taken
+      const result = await analyzeLeaf(file, selectedModel);
 
-        // Add the uploaded image and actual time to the result
-        const resultWithMeta = {
-          ...result,
-          image: previewUrl,
-          processingTime: `${durationInSeconds}s`
-        };
-        
-        onAnalysisComplete(resultWithMeta);
+      const endTime = performance.now();
+      const duration = ((endTime - startTime) / 1000).toFixed(2);
 
-    } catch (error) {
-        console.error("Analysis failed", error);
-        setAnalyzing(false);
+      const resultWithMeta: DiseaseResult = {
+        ...result,
+        image: previewUrl || "",
+        processingTime: `${duration}s`
+      };
+
+      onAnalysisComplete(resultWithMeta);
+      onNavigate("results");
+    } catch (err) {
+      console.error("Analysis failed:", err);
+    } finally {
+      setAnalyzing(false);
     }
   };
+
 
   return (
     <div className="bg-[#102216] min-h-screen flex flex-col relative overflow-x-hidden font-display text-white">

@@ -115,4 +115,4 @@ model.fit(
 os.makedirs(os.path.dirname(MODEL_SAVE_PATH), exist_ok=True)
 model.save(MODEL_SAVE_PATH)
 
-print("\n✅ Model trained & saved successfully!")
+print(" Model trained & saved successfully!")
