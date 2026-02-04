@@ -35,7 +35,7 @@ class_names = [
 # LOAD MODEL
 
 model = tf.keras.models.load_model(MODEL_PATH)
-print("✅ Model loaded successfully.")
+print(" Model loaded successfully.")
 
 
 img = Image.open(IMAGE_PATH).convert("RGB")
