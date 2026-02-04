@@ -91,7 +91,7 @@ model.fit(
 
 # FINE-TUNING (STAGE 2)
 
-print("\n🔥 Fine-tuning ResNet50...")
+print("\n Fine-tuning ResNet50...")
 
 base_model.trainable = True
 
