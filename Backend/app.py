@@ -11,7 +11,7 @@ MODELS = {
     "cnn": tf.keras.models.load_model("models/standardCNN.keras"),
     "resnet": tf.keras.models.load_model("models/resnet.keras"),
     "densenet": tf.keras.models.load_model("models/densenet.h5"),
-    # "efficientnet": tf.keras.models.load_model("models/efficientnet.keras"),
+    "efficientnet": tf.keras.models.load_model("models/efficientnet.keras"),
 }
 
 CLASS_NAMES = [
@@ -34,11 +34,13 @@ CLASS_NAMES = [
 ]
 
 @app.route("/predict", methods=["POST"])
+
 def predict():
     start = time.time()
 
     image = request.files.get("image")
     model_key = request.form.get("model")
+
 
     if image is None or model_key not in MODELS:
         return jsonify({"error": "Invalid request"}), 400
@@ -58,6 +60,7 @@ def predict():
         "image": "",
         "processingTime": f"{round(time.time() - start, 2)}s"
     })
+
 
 if __name__ == "__main__":
     app.run(debug=True)
