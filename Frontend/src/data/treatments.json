@@ -1,0 +1,202 @@
+{
+  "Cauliflower_Bacterial_Spot_Rot": [
+    {
+      "type": "Chemical",
+      "color": "danger",
+      "icon": "science",
+      "title": "Bactericide Treatment",
+      "steps": ["Apply copper-based bactericides.", "Avoid overhead irrigation.", "Treat seeds with hot water."]
+    },
+    {
+      "type": "Cultural",
+      "color": "caution",
+      "icon": "eco",
+      "title": "Sanitation",
+      "steps": ["Remove infected debris.", "Improve air circulation.", "Practice 3-year crop rotation."]
+    }
+  ],
+  "Cauliflower_Downy_Mildew": [
+    {
+      "type": "Chemical",
+      "color": "danger",
+      "icon": "science",
+      "title": "Fungicide Spray",
+      "steps": ["Apply Mancozeb or Metalaxyl.", "Spray early in the morning.", "Focus on underside of leaves."]
+    },
+    {
+      "type": "Prevention",
+      "color": "primary",
+      "icon": "shield",
+      "title": "Environment",
+      "steps": ["Reduce leaf wetness.", "Space plants widely.", "Use resistant cultivars."]
+    }
+  ],
+  "Cauliflower_Healthy": [
+    {
+      "type": "Maintenance",
+      "color": "primary",
+      "icon": "check_circle",
+      "title": "Optimal Care",
+      "steps": ["Maintain consistent nitrogen levels.", "Ensure 1 inch of water weekly.", "Monitor for pests regularly."]
+    }
+  ],
+  "Cauliflower_Black_Rot": [
+    {
+      "type": "Immediate",
+      "color": "danger",
+      "icon": "warning",
+      "title": "Containment",
+      "steps": ["Remove 'V-shaped' yellow lesions.", "Sterilize pruning tools.", "Avoid working in wet fields."]
+    },
+    {
+      "type": "Prevention",
+      "color": "primary",
+      "icon": "seed",
+      "title": "Seed Safety",
+      "steps": ["Use certified disease-free seeds.", "Hot water seed treatment.", "Control cruciferous weeds."]
+    }
+  ],
+  "Potato_Healthy": [
+    {
+      "type": "Maintenance",
+      "color": "primary",
+      "icon": "eco",
+      "title": "Standard Care",
+      "steps": ["Keep tubers hilled with soil.", "Monitor for Colorado beetles.", "Apply balanced N-P-K fertilizer."]
+    }
+  ],
+  "Potato_Late_Blight": [
+    {
+      "type": "Emergency",
+      "color": "danger",
+      "icon": "emergency",
+      "title": "Fungicide Program",
+      "steps": ["Apply Chlorothalonil immediately.", "Destroy all infected cull piles.", "Spray weekly during humid weather."]
+    },
+    {
+      "type": "Cultural",
+      "color": "caution",
+      "icon": "history",
+      "title": "Post-Harvest",
+      "steps": ["Wait 2 weeks after vine kill to harvest.", "Store in cool, dry conditions.", "Check tubers for rot frequently."]
+    }
+  ],
+  "Tomato_Bacterial_Spot": [
+    {
+      "type": "Chemical",
+      "color": "danger",
+      "icon": "science",
+      "title": "Copper Spray",
+      "steps": ["Apply copper + Mancozeb mix.", "Spray at first sign of spots.", "Apply every 7-10 days."]
+    },
+    {
+      "type": "Cultural",
+      "color": "caution",
+      "icon": "water_drop",
+      "title": "Irrigation",
+      "steps": ["Use drip irrigation only.", "Avoid touching wet foliage.", "Remove lower infected leaves."]
+    }
+  ],
+  "Tomato_Early_Blight": [
+    {
+      "type": "Management",
+      "color": "caution",
+      "icon": "content_cut",
+      "title": "Pruning",
+      "steps": ["Remove bottom 12 inches of leaves.", "Mulch to prevent soil splash.", "Stake plants for better airflow."]
+    },
+    {
+      "type": "Chemical",
+      "color": "danger",
+      "icon": "science",
+      "title": "Fungicides",
+      "steps": ["Chlorothalonil or Copper fungicides.", "Apply before heavy rains.", "Rotate fungicide classes."]
+    }
+  ],
+  "Tomato_Healthy": [
+    {
+      "type": "Maintenance",
+      "color": "primary",
+      "icon": "verified",
+      "title": "Vigor Program",
+      "steps": ["Consistent moisture (no cracking).", "Apply calcium for blossom end rot.", "Prune suckers for better fruit."]
+    }
+  ],
+  "Tomato_Late_Blight": [
+    {
+      "type": "Emergency",
+      "color": "danger",
+      "icon": "warning",
+      "title": "Strict Isolation",
+      "steps": ["Bag and remove whole plant.", "Apply systemic fungicides.", "Alert neighboring growers."]
+    }
+  ],
+  "Tomato_Leaf_Mold": [
+    {
+      "type": "Cultural",
+      "color": "caution",
+      "icon": "air",
+      "title": "Airflow",
+      "steps": ["Reduce humidity below 85%.", "Increase greenhouse ventilation.", "Prune dense canopy."]
+    }
+  ],
+  "Tomato_Septoria_Leaf_Spot": [
+    {
+      "type": "Cultural",
+      "color": "caution",
+      "icon": "layers",
+      "title": "Soil Barrier",
+      "steps": ["Apply thick straw mulch.", "Remove heavily spotted leaves.", "Avoid overhead watering."]
+    }
+  ],
+  "Tomato_Spider_Mites_Two_Spotted_Spider_Mite": [
+    {
+      "type": "Biological",
+      "color": "primary",
+      "icon": "pest_control",
+      "title": "Natural Enemies",
+      "steps": ["Release predatory mites (P. persimilis).", "Mist leaves to increase humidity.", "Avoid broad-spectrum pesticides."]
+    },
+    {
+      "type": "Chemical",
+      "color": "danger",
+      "icon": "wash",
+      "title": "Miticide/Soap",
+      "steps": ["Apply Insecticidal soap.", "Focus on leaf undersides.", "Apply Neem oil every 5 days."]
+    }
+  ],
+  "Tomato_Target_Spot": [
+    {
+      "type": "Chemical",
+      "color": "danger",
+      "icon": "science",
+      "title": "Fungicide",
+      "steps": ["Use Azoxystrobin or Boscalid.", "Ensure thorough coverage.", "Avoid excessive nitrogen."]
+    }
+  ],
+  "Tomato_Yellow_Leaf_Curl_Virus": [
+    {
+      "type": "Pest Control",
+      "color": "danger",
+      "icon": "bug_report",
+      "title": "Whitefly Management",
+      "steps": ["Use yellow sticky traps.", "Apply Imidacloprid to soil.", "Use reflective silver mulch."]
+    },
+    {
+      "type": "Containment",
+      "color": "caution",
+      "icon": "delete_forever",
+      "title": "Elimination",
+      "steps": ["Pull up 'curled' plants immediately.", "Kill whiteflies before pulling.", "Clear weeds around field."]
+    }
+  ],
+  "Tomato_mosaic_virus": [
+    {
+      "type": "Sanitation",
+      "color": "danger",
+      "icon": "cleaning_services",
+      "title": "Tool Hygiene",
+      "steps": ["Wash hands with milk/detergent.", "Disinfect shears in 10% bleach.", "No smoking near plants."]
+    }
+  ]
+}
