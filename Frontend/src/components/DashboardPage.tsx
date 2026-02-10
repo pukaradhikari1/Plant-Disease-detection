@@ -62,7 +62,7 @@ const DashboardPage: React.FC<Props> = ({ onNavigate, onAnalysisComplete }) => {
   return (
     <div className="bg-[#102216] min-h-screen flex flex-col relative overflow-x-hidden font-display text-white">
       {/* Background Grid */}
-      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none bg-[size:40px_40px]" style={{backgroundImage: "linear-gradient(to right, #316843 1px, transparent 1px), linear-gradient(to bottom, #316843 1px, transparent 1px)"}}></div>
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none bg-[size:40px_40px]" style={{ backgroundImage: "linear-gradient(to right, #316843 1px, transparent 1px), linear-gradient(to bottom, #316843 1px, transparent 1px)" }}></div>
       {/* Vignette */}
       <div className="fixed inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,#102216_100%)]"></div>
 
@@ -109,81 +109,81 @@ const DashboardPage: React.FC<Props> = ({ onNavigate, onAnalysisComplete }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 flex-1">
           {/* Left Column: Upload */}
           <div className="lg:col-span-8 flex flex-col gap-6">
-            <input 
-              type="file" 
+            <input
+              type="file"
               ref={fileInputRef}
               onChange={handleFileChange}
               className="hidden"
               accept="image/*"
             />
-            
-            <div 
-                className={`flex-1 glass-panel rounded-2xl p-1 relative overflow-hidden group border border-primary/30 shadow-[0_0_30px_rgba(13,242,89,0.05)] cursor-pointer`}
-                onClick={handleFileClick}
+
+            <div
+              className={`flex-1 glass-panel rounded-2xl p-1 relative overflow-hidden group border border-primary/30 shadow-[0_0_30px_rgba(13,242,89,0.05)] cursor-pointer`}
+              onClick={handleFileClick}
             >
               <div className="relative h-full w-full rounded-xl border-2 border-dashed border-primary/40 bg-black/20 flex flex-col items-center justify-center p-8 transition-all duration-300 hover:border-primary/80 hover:bg-black/30">
                 {!fileSelected || !previewUrl ? (
-                    <>
-                        <div className="text-center space-y-6 z-10">
-                        <div className="relative mx-auto size-24 flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
-                            <span className="material-symbols-outlined text-5xl text-primary drop-shadow-[0_0_10px_rgba(13,242,89,0.5)]">add_a_photo</span>
-                            <div className="absolute inset-0 rounded-full border border-primary/30 border-t-transparent animate-spin" style={{animationDuration: '3s'}}></div>
-                        </div>
-                        <div className="space-y-2">
-                            <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">Select Leaf Image</h3>
-                            <p className="text-gray-400 text-sm">Supported formats: JPG, PNG, TIFF (Max 25MB)</p>
-                        </div>
-                        <button className="bg-surface-dark hover:bg-primary hover:text-[#102216] text-white border border-primary/30 px-6 py-3 rounded-lg font-medium tracking-wide transition-all duration-300 flex items-center gap-2 mx-auto group/btn">
-                            <span className="material-symbols-outlined group-hover/btn:animate-bounce">folder_open</span>
-                            BROWSE DEVICE
-                        </button>
-                        </div>
-                        <div className="absolute top-0 left-0 w-full h-1 bg-primary/50 blur-[2px] animate-[scan_4s_ease-in-out_infinite]"></div>
-                    </>
-                ) : (
-                    <div className="relative w-full h-full flex items-center justify-center">
-                         <img src={previewUrl} className="max-h-full max-w-full rounded-lg shadow-2xl object-contain" alt="Selected leaf" />
-                         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <div className="text-primary font-mono text-xl bg-black/80 px-4 py-2 rounded">
-                                {analyzing ? 'PROCESSING...' : 'READY FOR ANALYSIS'}
-                            </div>
-                         </div>
+                  <>
+                    <div className="text-center space-y-6 z-10">
+                      <div className="relative mx-auto size-24 flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
+                        <span className="material-symbols-outlined text-5xl text-primary drop-shadow-[0_0_10px_rgba(13,242,89,0.5)]">add_a_photo</span>
+                        <div className="absolute inset-0 rounded-full border border-primary/30 border-t-transparent animate-spin" style={{ animationDuration: '3s' }}></div>
+                      </div>
+                      <div className="space-y-2">
+                        <h3 className="text-2xl font-bold text-white group-hover:text-primary transition-colors">Select Leaf Image</h3>
+                        <p className="text-gray-400 text-sm">Supported formats: JPG, PNG, TIFF (Max 25MB)</p>
+                      </div>
+                      <button className="bg-surface-dark hover:bg-primary hover:text-[#102216] text-white border border-primary/30 px-6 py-3 rounded-lg font-medium tracking-wide transition-all duration-300 flex items-center gap-2 mx-auto group/btn">
+                        <span className="material-symbols-outlined group-hover/btn:animate-bounce">folder_open</span>
+                        BROWSE DEVICE
+                      </button>
                     </div>
+                    <div className="absolute top-0 left-0 w-full h-1 bg-primary/50 blur-[2px] animate-[scan_4s_ease-in-out_infinite]"></div>
+                  </>
+                ) : (
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    <img src={previewUrl} className="max-h-full max-w-full rounded-lg shadow-2xl object-contain" alt="Selected leaf" />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                      <div className="text-primary font-mono text-xl bg-black/80 px-4 py-2 rounded">
+                        {analyzing ? 'PROCESSING...' : 'READY FOR ANALYSIS'}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
 
             {/* Queue Item */}
             {fileSelected && (
-                <div className="glass-panel rounded-xl p-4 border border-white/5 animate-in slide-in-from-bottom fade-in duration-500">
+              <div className="glass-panel rounded-xl p-4 border border-white/5 animate-in slide-in-from-bottom fade-in duration-500">
                 <div className="flex items-center justify-between mb-4">
-                    <h4 className="text-sm uppercase tracking-wider text-gray-400 font-bold">Analysis Queue</h4>
-                    <span className="text-xs text-primary bg-primary/10 px-2 py-1 rounded">1 Item Ready</span>
+                  <h4 className="text-sm uppercase tracking-wider text-gray-400 font-bold">Analysis Queue</h4>
+                  <span className="text-xs text-primary bg-primary/10 px-2 py-1 rounded">1 Item Ready</span>
                 </div>
                 <div className="flex items-center gap-4 bg-surface-dark/50 p-3 rounded-lg border border-white/5 hover:border-primary/30 transition-colors group">
-                    <div className="size-16 rounded-md bg-cover bg-center relative overflow-hidden" style={{backgroundImage: `url('${previewUrl}')`}}>
+                  <div className="size-16 rounded-md bg-cover bg-center relative overflow-hidden" style={{ backgroundImage: `url('${previewUrl}')` }}>
                     <div className="absolute inset-0 bg-primary/20 hidden group-hover:flex items-center justify-center">
-                        <span className="material-symbols-outlined text-white text-lg">zoom_in</span>
+                      <span className="material-symbols-outlined text-white text-lg">zoom_in</span>
                     </div>
-                    </div>
-                    <div className="flex-1 min-w-0">
+                  </div>
+                  <div className="flex-1 min-w-0">
                     <p className="text-white font-medium truncate">Selected Specimen</p>
                     <p className="text-xs text-gray-500">Ready for upload</p>
-                    </div>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setFileSelected(false);
-                        setPreviewUrl(null);
-                        if (fileInputRef.current) fileInputRef.current.value = "";
-                      }} 
-                      className="text-gray-500 hover:text-red-400 p-2 transition-colors" 
-                      title="Remove"
-                    >
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setFileSelected(false);
+                      setPreviewUrl(null);
+                      if (fileInputRef.current) fileInputRef.current.value = "";
+                    }}
+                    className="text-gray-500 hover:text-red-400 p-2 transition-colors"
+                    title="Remove"
+                  >
                     <span className="material-symbols-outlined">close</span>
-                    </button>
+                  </button>
                 </div>
-                </div>
+              </div>
             )}
           </div>
 
@@ -195,54 +195,54 @@ const DashboardPage: React.FC<Props> = ({ onNavigate, onAnalysisComplete }) => {
                 Select Neural Network
               </h3>
               <div className="flex flex-col gap-4 flex-1">
-                <ModelOption 
-                    name="ResNet-50" acc="98.5%" lat="45ms" icon="grid_view" 
-                    selected={selectedModel === 'resnet'} 
-                    onClick={() => setSelectedModel('resnet')} 
+                <ModelOption
+                  name="ResNet-50" acc="98.5%" lat="45ms" icon="grid_view"
+                  selected={selectedModel === 'resnet'}
+                  onClick={() => setSelectedModel('resnet')}
                 />
-                <ModelOption 
-                    name="EfficientNet-B0" acc="96.2%" lat="12ms" icon="speed" 
-                    selected={selectedModel === 'efficientnet'} 
-                    onClick={() => setSelectedModel('efficientnet')} 
+                <ModelOption
+                  name="EfficientNet-B0" acc="96.2%" lat="12ms" icon="speed"
+                  selected={selectedModel === 'efficientnet'}
+                  onClick={() => setSelectedModel('efficientnet')}
                 />
-                <ModelOption 
-                    name="DenseNet-121" acc="97.8%" lat="68ms" icon="layers" 
-                    selected={selectedModel === 'densenet'} 
-                    onClick={() => setSelectedModel('densenet')} 
+                <ModelOption
+                  name="DenseNet-121" acc="97.8%" lat="68ms" icon="layers"
+                  selected={selectedModel === 'densenet'}
+                  onClick={() => setSelectedModel('densenet')}
                 />
-                <ModelOption 
-                    name="CNN Basic" acc="89.4%" lat="15ms" icon="view_in_ar" lowConf 
-                    selected={selectedModel === 'cnn'} 
-                    onClick={() => setSelectedModel('cnn')} 
+                <ModelOption
+                  name="CNN Basic" acc="89.4%" lat="15ms" icon="view_in_ar" lowConf
+                  selected={selectedModel === 'cnn'}
+                  onClick={() => setSelectedModel('cnn')}
                 />
               </div>
               <div className="mt-6 pt-6 border-t border-white/10">
-                <button 
+                <button
                   onClick={handleAnalyze}
                   disabled={analyzing || !fileSelected}
                   className={`w-full relative overflow-hidden group bg-primary hover:bg-[#0be050] text-[#102216] font-black uppercase tracking-widest py-4 rounded-xl shadow-[0_0_20px_rgba(13,242,89,0.4)] transition-all duration-300 transform active:scale-[0.98] ${(!fileSelected || analyzing) ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
-                    {!analyzing ? (
-                        <>
-                             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                            <span className="relative flex items-center justify-center gap-2">
-                                <span className="material-symbols-outlined">network_intelligence</span>
-                                Analyze Image
-                            </span>
-                        </>
-                    ) : (
-                        <span className="flex items-center justify-center gap-2">
-                            <span className="material-symbols-outlined animate-spin">refresh</span>
-                            Processing...
-                        </span>
-                    )}
+                  {!analyzing ? (
+                    <>
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
+                      <span className="relative flex items-center justify-center gap-2">
+                        <span className="material-symbols-outlined">network_intelligence</span>
+                        Analyze Image
+                      </span>
+                    </>
+                  ) : (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="material-symbols-outlined animate-spin">refresh</span>
+                      Processing...
+                    </span>
+                  )}
                 </button>
                 <p className="text-center text-xs text-gray-500 mt-3 font-mono">
-                    Estimated time: {
-                        selectedModel === 'resnet' ? '~1.5s' :
-                        selectedModel === 'efficientnet' ? '~0.8s' :
+                  Estimated time: {
+                    selectedModel === 'resnet' ? '~1.5s' :
+                      selectedModel === 'efficientnet' ? '~0.8s' :
                         selectedModel === 'densenet' ? '~2.2s' : '~0.4s'
-                    }
+                  }
                 </p>
               </div>
             </div>
@@ -266,7 +266,7 @@ const DashboardPage: React.FC<Props> = ({ onNavigate, onAnalysisComplete }) => {
   );
 };
 
-const ModelOption: React.FC<{name: string, acc: string, lat: string, icon: string, selected: boolean, onClick: () => void, lowConf?: boolean}> = ({name, acc, lat, icon, selected, onClick, lowConf}) => (
+const ModelOption: React.FC<{ name: string, acc: string, lat: string, icon: string, selected: boolean, onClick: () => void, lowConf?: boolean }> = ({ name, acc, lat, icon, selected, onClick, lowConf }) => (
   <label className="cursor-pointer group relative" onClick={onClick}>
     <input type="radio" name="model" className="peer sr-only" checked={selected} readOnly />
     <div className={`p-4 rounded-xl bg-surface-dark border ${selected ? 'border-primary bg-primary/5 shadow-[0_0_15px_rgba(13,242,89,0.1)]' : 'border-white/10'} transition-all duration-300 hover:border-white/20`}>

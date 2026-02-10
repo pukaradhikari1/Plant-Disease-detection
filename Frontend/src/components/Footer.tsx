@@ -13,9 +13,14 @@ export const Footer: React.FC = () => {
             Empowering farmers and gardeners with enterprise-grade AI diagnostics.
           </p>
         </div>
-        
+
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-600 text-sm"> 2026 Plant Disease Detection. </p>
+          <p className="text-gray-600 text-sm text-center">
+            &copy; 2026 Plant Disease Detection. All rights reserved.
+            <a href="https://github.com/pukaradhikari1/Plant-Disease-detection" className="text-primary hover:underline ml-1" target="_blank" rel="noopener noreferrer">
+              GitHub
+            </a>
+          </p>
         </div>
       </div>
     </footer>
