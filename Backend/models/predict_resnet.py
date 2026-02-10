@@ -6,22 +6,22 @@ import json
 MODEL_PATH = r"C:\Users\Hp Victus\Desktop\project 4\Backend\saved_model\plant_disease_resnet.keras"
 IMAGE_PATH = r"C:\Users\Hp Victus\Desktop\project 4\Backend\test_leaf.jpg"
 
-# Load class names (IMPORTANT)
+# load class names 
 with open("class_names.json", "r") as f:
     class_names = json.load(f)
 
-# Load model
+# load the model
 model = tf.keras.models.load_model(MODEL_PATH)
 print(" Model loaded successfully.")
 
-# Load image
+# load and prep the image
 img = Image.open(IMAGE_PATH).convert("RGB")
 img = img.resize((224, 224))
 
-# Convert to array (NO preprocessing here)
+# convert to array
 img_array = np.expand_dims(np.array(img), axis=0)
 
-# Predict
+# make prediction
 predictions = model.predict(img_array)
 
 predicted_index = np.argmax(predictions[0])

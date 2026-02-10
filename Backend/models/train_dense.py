@@ -6,18 +6,12 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam
 import os
 
-# ======================
-# CONFIGURATION
-# ======================
 DATASET_PATH = "../data/PlantVillage"
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 32
 EPOCHS = 10
 FINE_TUNE_EPOCHS = 10
 
-# ======================
-# DATA GENERATORS
-# ======================
 datagen = ImageDataGenerator(
     rescale=1./255,
     validation_split=0.15,
@@ -44,9 +38,6 @@ val_gen = datagen.flow_from_directory(
 
 NUM_CLASSES = train_gen.num_classes
 
-# ======================
-# MODEL
-# ======================
 base_model = DenseNet121(
     weights='imagenet',
     include_top=False,
@@ -61,27 +52,18 @@ output = Dense(NUM_CLASSES, activation='softmax')(x)
 
 model = Model(inputs=base_model.input, outputs=output)
 
-# ======================
-# COMPILE
-# ======================
 model.compile(
     optimizer=Adam(),
     loss='categorical_crossentropy',
     metrics=['accuracy']
 )
 
-# ======================
-# TRAINING (PHASE 1)
-# ======================
 history = model.fit(
     train_gen,
     validation_data=val_gen,
     epochs=EPOCHS
 )
 
-# ======================
-# FINE-TUNING
-# ======================
 for layer in base_model.layers[-60:]:
     layer.trainable = True
 
@@ -97,10 +79,7 @@ history_fine = model.fit(
     epochs=FINE_TUNE_EPOCHS
 )
 
-# ======================
-# SAVE MODEL
-# ======================
 os.makedirs("../models", exist_ok=True)
 model.save("../models/densenet121_plant_disease.h5")
 
-print(" Training complete. Model saved.")
+print("Training complete. Model saved.")

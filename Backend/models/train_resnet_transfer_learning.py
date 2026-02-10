@@ -10,9 +10,7 @@ EPOCHS_INITIAL = 8
 EPOCHS_FINE_TUNE = 12
 SEED = 123
 
-# =======================
-# LOAD DATASET
-# =======================
+
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     DATASET_PATH,
@@ -41,9 +39,8 @@ AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.prefetch(AUTOTUNE)
 val_ds = val_ds.prefetch(AUTOTUNE)
 
-# =======================
-# DATA AUGMENTATION
-# =======================
+
+
 
 data_augmentation = tf.keras.Sequential([
     tf.keras.layers.RandomFlip("horizontal"),
@@ -51,9 +48,7 @@ data_augmentation = tf.keras.Sequential([
     tf.keras.layers.RandomZoom(0.1)
 ])
 
-# =======================
-# BASE MODEL
-# =======================
+
 
 base_model = tf.keras.applications.ResNet50(
     weights="imagenet",
@@ -65,9 +60,7 @@ base_model.trainable = False
 
 preprocess = tf.keras.applications.resnet50.preprocess_input
 
-# =======================
-# MODEL
-# =======================
+
 
 inputs = tf.keras.Input(shape=(224, 224, 3))
 x = data_augmentation(inputs)
@@ -79,9 +72,7 @@ outputs = tf.keras.layers.Dense(num_classes, activation="softmax")(x)
 
 model = tf.keras.Model(inputs, outputs)
 
-# =======================
-# CALLBACKS
-# =======================
+
 
 checkpoint = tf.keras.callbacks.ModelCheckpoint(
     MODEL_SAVE_PATH,
@@ -95,9 +86,7 @@ early_stop = tf.keras.callbacks.EarlyStopping(
     restore_best_weights=True
 )
 
-# =======================
-# PHASE 1: TRAIN HEAD
-# =======================
+# train head first
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(1e-3),
@@ -113,9 +102,7 @@ model.fit(
     callbacks=[checkpoint, early_stop]
 )
 
-# =======================
-# PHASE 2: FINE TUNING
-# =======================
+
 
 base_model.trainable = True
 
@@ -136,9 +123,7 @@ model.fit(
     callbacks=[checkpoint, early_stop]
 )
 
-# =======================
-# SAVE FINAL MODEL
-# =======================
+
 
 os.makedirs(os.path.dirname(MODEL_SAVE_PATH), exist_ok=True)
 model.save(MODEL_SAVE_PATH)

@@ -6,10 +6,10 @@ DATASET_PATH = r"C:\Users\Hp Victus\Desktop\project 4\Backend\Data\PlantVillage"
 IMAGE_SIZE = (224, 224)
 BATCH_SIZE = 32
 
-# Load model
+
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# Load dataset (NO extra normalization)
+
 test_ds = tf.keras.preprocessing.image_dataset_from_directory(
     DATASET_PATH,
     image_size=IMAGE_SIZE,
@@ -17,6 +17,6 @@ test_ds = tf.keras.preprocessing.image_dataset_from_directory(
     shuffle=False
 )
 
-# Evaluate
+
 loss, accuracy = model.evaluate(test_ds)
 print("Test Accuracy:", accuracy)

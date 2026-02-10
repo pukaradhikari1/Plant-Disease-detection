@@ -10,23 +10,21 @@ import tensorflow as tf
 from dotenv import load_dotenv
 from supabase import create_client
 from tensorflow.keras.applications import densenet, efficientnet
-
-# ---------------- LOAD ENV ----------------
+#loading the enviroment variable file 
 load_dotenv()
 
-# CRITICAL: Ensure this uses the SERVICE_ROLE key from Supabase (not the Anon key)
-# The Service Role key bypasses Row Level Security (RLS)
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY") 
+
+SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip().replace("\\", "")
+SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise RuntimeError("Supabase environment variables are missing. Check .env file.")
 
-# Ensure URL format is correct
+#Ensure URL format is correct
 SUPABASE_URL = SUPABASE_URL.rstrip("/") + "/"
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-# ---------------- APP SETUP ----------------
+
 app = Flask(__name__)
 CORS(app)
 
@@ -43,7 +41,7 @@ except FileNotFoundError:
     CLASS_NAMES = []
 
 
-# Wrap in try-except to prevent crash if models are missing during dev
+#putting in the try catch to prevent from cashing 
 MODELS = {}
 try:
     MODELS = {
@@ -56,7 +54,7 @@ try:
 except Exception as e:
     print(f"Warning: Could not load some models. {e}")
 
-# ---------------- IMAGE PREPROCESS ----------------
+#preperocessing the images
 def preprocess_image(image_path, model_key):
     img = Image.open(image_path).convert("RGB")
     img = img.resize((224, 224))
@@ -70,11 +68,10 @@ def preprocess_image(image_path, model_key):
     elif model_key == "efficientnet":
         img = efficientnet.preprocess_input(img)
     
-    # Resnet usually expects standard 0-255 or specific preprocess, 
-    # assuming standard rescale if not specified otherwise for your custom model
+    
     return img
 
-# ---------------- PREDICT ROUTE ----------------
+# for frontend connecting and predicting the disease 
 @app.route("/predict", methods=["POST"])
 def predict():
     start_time = time.time()
@@ -86,7 +83,7 @@ def predict():
 
         model_key = request.form.get("model", "resnet")
         
-        # Fallback if model keys are slightly different or missing
+       
         if model_key not in MODELS:
             if "resnet" in MODELS:
                 model_key = "resnet"
@@ -96,12 +93,12 @@ def predict():
         file = request.files["image"]
         model = MODELS[model_key]
 
-        # Save temporarily
+    #temporarily saving the img
         filename = f"{uuid.uuid4()}.jpg"
         local_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(local_path)
 
-        # 1. Prediction
+        # prediction result 
         img = preprocess_image(local_path, model_key)
         preds = model.predict(img)[0]
 
@@ -115,11 +112,11 @@ def predict():
         ]
         best_prediction = top_predictions[0]
 
-        # 2. Supabase Upload (Wrapped to prevent crashing prediction if DB fails)
+        # 2. storing in database 
         image_url = None
         try:
             with open(local_path, "rb") as f:
-                # 'upsert': 'true' helps if file exists
+                
                 supabase.storage.from_("leaf-images").upload(
                     filename,
                     f,
@@ -127,33 +124,34 @@ def predict():
                 )
             image_url = supabase.storage.from_("leaf-images").get_public_url(filename)
         except Exception as e:
-            print(f" Storage Error (Proceeding anyway): {e}")
-            # Do not return 500 here; just continue without URL
+            print(f" storage Error: {e}")
+           
 
-        # 3. Database Insert
+     
         try:
-            if image_url: # Only log if we have an image URL, or allow NULL
+            if image_url: 
                 supabase.table("plant_disease_logs").insert({
                     "image_url": image_url,
                     "disease_name": best_prediction["disease"],
                     "confidence": best_prediction["confidence"],
-                    # "model_used": model_key # Uncomment if you added this column back
+                   
                 }).execute()
         except Exception as e:
-            print(f" Database Error (Proceeding anyway): {e}")
+            print(f" Database Error : {e}")
 
-        # Cleanup
+       
         if os.path.exists(local_path):
             os.remove(local_path)
 
-        # ---------------- RESPONSE ----------------
+        #  response to the fornted
+        
         return jsonify({
             "name": best_prediction["disease"],
             "confidence": best_prediction["confidence"],
             "image": image_url,
             "top_predictions": top_predictions,
             "processingTime": f"{round(time.time() - start_time, 2)}s",
-            # Mock treatments for frontend display 
+            
             "treatments": [
                 {
                     "type": "Chemical",

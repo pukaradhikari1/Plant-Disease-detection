@@ -2,16 +2,12 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 
-# ======================
-# CONFIGURATION
-# ======================
+
 MODEL_PATH = "../models/densenet121_plant_disease.h5"
 IMAGE_PATH = "../test_images/test_leaf.jpg"
 IMG_SIZE = (224, 224)
 
-# ======================
-# CLASS NAMES (MUST MATCH TRAINING ORDER)
-# ======================
+
 class_names = [
     'Cauliflower_Bacterial_Spot_Rot',
     'Cauliflower_Downy_Mildew',
@@ -31,33 +27,24 @@ class_names = [
     'Tomato_Yellow_Leaf_Curl_Virus'
 ]
 
-# ======================
-# LOAD MODEL
-# ======================
+
 model = tf.keras.models.load_model(MODEL_PATH)
 
-# ======================
-# LOAD & PREPROCESS IMAGE
-# ======================
+
 img = Image.open(IMAGE_PATH).convert("RGB")
 img = img.resize(IMG_SIZE)
 
 img_array = np.array(img) / 255.0
 img_array = np.expand_dims(img_array, axis=0)
 
-# ======================
-# PREDICTION
-# ======================
+
 predictions = model.predict(img_array)
 predicted_index = np.argmax(predictions)
 confidence = np.max(predictions)
 
 predicted_class = class_names[predicted_index]
 
-# ======================
-# OUTPUT
-# ======================
-print("\n🩺 Prediction Result")
+print("\nPrediction Result")
 print("---------------------")
 print(f"Image: {IMAGE_PATH}")
 print(f"Disease: {predicted_class}")
